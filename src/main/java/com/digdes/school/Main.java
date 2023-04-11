@@ -104,6 +104,7 @@ public class Main
 //        System.out.println(jss.execute("SELECT WHERE 'lastName' like 'name%'"));
 //        System.out.println(jss.execute("SELECT WHERE 'lastname'  like '%N%' and 'age'<=18"));
 //        System.out.println(jss.execute("SELECT WHERE 'id'=9"));
+        System.out.println(jss.execute("SELECT WHERE 'age'!=3758358 AND 'id'!=234"));
         System.out.println(jss.execute("SELECT"));
     }
 

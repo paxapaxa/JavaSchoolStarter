@@ -248,7 +248,12 @@ public class JavaSchoolStarter
 
                             if (!nextRow.containsKey("id"))
                             {
-                                rowIterator.remove();
+                                if (!operatorOfCondition.equals("!="))
+                                {
+                                    rowIterator.remove();
+                                }
+
+                                break;
                             }
 
                             for (Map.Entry<String, Object> pair : nextRow.entrySet())
@@ -278,7 +283,12 @@ public class JavaSchoolStarter
 
                                 if (!nextRow.containsKey("lastName"))
                                 {
-                                    rowIterator.remove();
+                                    if (!operatorOfCondition.equals("!="))
+                                    {
+                                        rowIterator.remove();
+                                    }
+
+                                    break;
                                 }
 
                                 for (Map.Entry<String, Object> pair : nextRow.entrySet())
@@ -320,7 +330,12 @@ public class JavaSchoolStarter
 
                             if (!nextRow.containsKey("age"))
                             {
-                                rowIterator.remove();
+                                if (!operatorOfCondition.equals("!="))
+                                {
+                                    rowIterator.remove();
+                                }
+
+                                break;
                             }
 
                             for (Map.Entry<String, Object> pair : nextRow.entrySet())
@@ -358,7 +373,12 @@ public class JavaSchoolStarter
 
                             if (!nextRow.containsKey("cost"))
                             {
-                                rowIterator.remove();
+                                if (!operatorOfCondition.equals("!="))
+                                {
+                                    rowIterator.remove();
+                                }
+
+                                break;
                             }
 
                             for (Map.Entry<String, Object> pair : nextRow.entrySet())
@@ -390,7 +410,12 @@ public class JavaSchoolStarter
 
                                 if (!nextRow.containsKey("active"))
                                 {
-                                    rowIterator.remove();
+                                    if (!operatorOfCondition.equals("!="))
+                                    {
+                                        rowIterator.remove();
+                                    }
+
+                                    break;
                                 }
 
                                 for (Map.Entry<String, Object> pair : nextRow.entrySet())
