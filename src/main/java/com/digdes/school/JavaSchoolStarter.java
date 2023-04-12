@@ -388,6 +388,10 @@ public class JavaSchoolStarter
                         }
                         else
                         {
+                            if (operatorOfCondition.equals("!="))
+                            {
+                                break;
+                            }
                             if (operatorOfCondition.equals("="))
                             {
                                 rowsWhereForAnd.clear();
