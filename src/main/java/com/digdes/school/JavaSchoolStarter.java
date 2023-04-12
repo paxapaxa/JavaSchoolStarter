@@ -482,7 +482,7 @@ public class JavaSchoolStarter
                         {
                             cost = new BigDecimal(andSection.split(operatorOfCondition)[1].replaceAll("\\s", ""));
 
-                            if (cost.toString().split(".")[1].trim().length() == 0)
+                            if (cost.toString().split("\\.")[1].trim().length() == 0)
                             {
                                 throw new Exception();
                             }
