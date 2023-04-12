@@ -1,5 +1,6 @@
 package com.digdes.school;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 public class JavaSchoolStarter
@@ -282,11 +283,19 @@ public class JavaSchoolStarter
                             throw new Exception("invalid characters after column name");
                         }
 
-                        long id;
+                        BigDecimal id;
 
                         try
                         {
-                            id = Long.parseLong(andSection.split(operatorOfCondition)[1].replaceAll("\\s", ""));
+                            if (operatorOfCondition.equals("!=") || operatorOfCondition.equals("="))
+                            {
+                                long longValue = Long.parseLong(andSection.split(operatorOfCondition)[1].replaceAll("\\s", ""));
+                                id = new BigDecimal(longValue);
+                            }
+                            else
+                            {
+                                id = new BigDecimal(andSection.split(operatorOfCondition)[1].replaceAll("\\s", ""));
+                            }
                         }
                         catch (Exception e)
                         {
@@ -325,7 +334,8 @@ public class JavaSchoolStarter
                             {
                                 if (pair.getKey().equals("id"))
                                 {
-                                    if (!checkConditionForNumbers((long) pair.getValue(), operatorOfCondition, id))
+                                    if (!checkConditionForNumbers(
+                                            BigDecimal.valueOf((long) pair.getValue()), operatorOfCondition, id))
                                     {
                                         rowIterator.remove();
                                     }
@@ -391,16 +401,25 @@ public class JavaSchoolStarter
                     case "age" ->
                     {
                         String operatorOfCondition = parseOperatorOfCondition(andSection);
-                        long age;
 
                         if (!andSection.split("(?i)'age'")[1].trim().startsWith(operatorOfCondition))
                         {
                             throw new Exception("invalid characters after column name");
                         }
 
+                        BigDecimal age;
+
                         try
                         {
-                            age = Long.parseLong(andSection.split(operatorOfCondition)[1].replaceAll("\\s", ""));
+                            if (operatorOfCondition.equals("!=") || operatorOfCondition.equals("="))
+                            {
+                                long longValue = Long.parseLong(andSection.split(operatorOfCondition)[1].replaceAll("\\s", ""));
+                                age = new BigDecimal(longValue);
+                            }
+                            else
+                            {
+                                age = new BigDecimal(andSection.split(operatorOfCondition)[1].replaceAll("\\s", ""));
+                            }
                         }
                         catch (Exception e)
                         {
@@ -439,7 +458,8 @@ public class JavaSchoolStarter
                             {
                                 if (pair.getKey().equals("age"))
                                 {
-                                    if (!checkConditionForNumbers((long) pair.getValue(), operatorOfCondition, age))
+                                    if (!checkConditionForNumbers(
+                                            BigDecimal.valueOf((long) pair.getValue()), operatorOfCondition, age))
                                     {
                                         rowIterator.remove();
                                     }
@@ -451,16 +471,21 @@ public class JavaSchoolStarter
                     {
                         String operatorOfCondition = parseOperatorOfCondition(andSection);
 
-                        double cost;
-
                         if (!andSection.split("(?i)'cost'")[1].trim().startsWith(operatorOfCondition))
                         {
                             throw new Exception("invalid characters after column name");
                         }
 
+                        BigDecimal cost;
+
                         try
                         {
-                            cost = Double.parseDouble(andSection.split(operatorOfCondition)[1].replaceAll("\\s", ""));
+                            cost = new BigDecimal(andSection.split(operatorOfCondition)[1].replaceAll("\\s", ""));
+
+                            if (cost.toString().split(".")[1].trim().length() == 0)
+                            {
+                                throw new Exception();
+                            }
                         }
                         catch (Exception e)
                         {
@@ -499,7 +524,8 @@ public class JavaSchoolStarter
                             {
                                 if (pair.getKey().equals("cost"))
                                 {
-                                    if (!checkConditionForNumbers((double) pair.getValue(), operatorOfCondition, cost))
+                                    if (!checkConditionForNumbers(
+                                            BigDecimal.valueOf((double) pair.getValue()), operatorOfCondition, cost))
                                     {
                                         rowIterator.remove();
                                     }
@@ -595,7 +621,7 @@ public class JavaSchoolStarter
         return rowsWhereForOr;
     }
 
-    private <T extends Number & Comparable<T>> boolean checkConditionForNumbers(T obj1, String condition, T obj2) throws Exception
+    private boolean checkConditionForNumbers(BigDecimal obj1, String condition, BigDecimal obj2) throws Exception
     {
         switch (condition)
         {
