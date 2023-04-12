@@ -24,22 +24,22 @@ public class JavaSchoolStarter
                 case "UPDATE" -> elements = update(request);
                 case "DELETE" -> elements = delete(request);
                 case "SELECT" -> elements = select(request);
-                default -> throw new IllegalArgumentException("there is no such command");
+                default -> throw new Exception("there is no such command");
             }
         }
         catch (ArrayIndexOutOfBoundsException e)
         {
-            throw new IllegalArgumentException ("the command is incomplete");
+            throw new Exception("the command is incomplete");
         }
 
         return elements;
     }
 
-    private List<Map<String, Object>> insert(String request) throws ArrayIndexOutOfBoundsException
+    private List<Map<String, Object>> insert(String request) throws Exception
     {
         if (!request.split("\\s+")[1].equalsIgnoreCase("VALUES"))
         {
-            throw new IllegalArgumentException("invalid characters after INSERT");
+            throw new Exception("invalid characters after INSERT");
         }
 
         Map<String, Object> newRow = new HashMap<>();
@@ -48,7 +48,7 @@ public class JavaSchoolStarter
 
         if (newRow.size() == 0)
         {
-            throw new IllegalArgumentException("all values in a row cannot be empty!");
+            throw new Exception("all values in a row cannot be empty!");
         }
 
         table.add(newRow);
@@ -59,11 +59,11 @@ public class JavaSchoolStarter
         return element;
     }
 
-    private List<Map<String, Object>> update(String request) throws ArrayIndexOutOfBoundsException
+    private List<Map<String, Object>> update(String request) throws Exception
     {
         if (!request.split("\\s+")[1].equalsIgnoreCase("VALUES"))
         {
-            throw new IllegalArgumentException("invalid characters after UPDATE");
+            throw new Exception("invalid characters after UPDATE");
         }
 
         List<Map<String, Object>> rowsWhere;
@@ -88,7 +88,7 @@ public class JavaSchoolStarter
 
             if (row.size() == 0)
             {
-                throw new IllegalArgumentException("all values in a row cannot be empty!");
+                throw new Exception("all values in a row cannot be empty!");
             }
         }
 
@@ -97,7 +97,7 @@ public class JavaSchoolStarter
         return rowsWhere;
     }
 
-    private void writeValuesToCells(String request, Map<String, Object> row)
+    private void writeValuesToCells(String request, Map<String, Object> row) throws Exception
     {
         String valuesSection = request.split("(?i)VALUES")[1];
 
@@ -105,7 +105,7 @@ public class JavaSchoolStarter
         {
             if (!cellValue.trim().startsWith("'"))
             {
-                throw new IllegalArgumentException("invalid characters between cell values");
+                throw new Exception("invalid characters between cell values");
             }
 
             switch (cellValue.split("'")[1].toLowerCase())
@@ -114,7 +114,7 @@ public class JavaSchoolStarter
                 {
                     if (!cellValue.split("(?i)'id'")[1].trim().startsWith("="))
                     {
-                        throw new IllegalArgumentException("invalid characters after column name");
+                        throw new Exception("invalid characters after column name");
                     }
 
                     String idValue = cellValue.split("=")[1].replaceAll("\\s", "");
@@ -132,7 +132,7 @@ public class JavaSchoolStarter
                         }
                         catch (Exception e)
                         {
-                            throw new IllegalArgumentException("invalid id value");
+                            throw new Exception("invalid id value");
                         }
                     }
                 }
@@ -140,7 +140,7 @@ public class JavaSchoolStarter
                 {
                     if (!cellValue.split("(?i)'lastName'")[1].trim().startsWith("="))
                     {
-                        throw new IllegalArgumentException("invalid characters after column name");
+                        throw new Exception("invalid characters after column name");
                     }
 
                     if (cellValue.split("=")[1].replaceAll("\\s", "").equals("null"))
@@ -154,14 +154,14 @@ public class JavaSchoolStarter
                     }
                     else
                     {
-                        throw new IllegalArgumentException("invalid lastName value");
+                        throw new Exception("invalid lastName value");
                     }
                 }
                 case "age" ->
                 {
                     if (!cellValue.split("(?i)'age'")[1].trim().startsWith("="))
                     {
-                        throw new IllegalArgumentException("invalid characters after column name");
+                        throw new Exception("invalid characters after column name");
                     }
 
                     String ageValue = cellValue.split("=")[1].replaceAll("\\s", "");
@@ -179,7 +179,7 @@ public class JavaSchoolStarter
                         }
                         catch (Exception e)
                         {
-                            throw new IllegalArgumentException("invalid age value");
+                            throw new Exception("invalid age value");
                         }
                     }
                 }
@@ -187,7 +187,7 @@ public class JavaSchoolStarter
                 {
                     if (!cellValue.split("(?i)'cost'")[1].trim().startsWith("="))
                     {
-                        throw new IllegalArgumentException("invalid characters after column name");
+                        throw new Exception("invalid characters after column name");
                     }
 
                     String costValue = cellValue.split("=")[1].replaceAll("\\s", "");
@@ -205,7 +205,7 @@ public class JavaSchoolStarter
                         }
                         catch (Exception e)
                         {
-                            throw new IllegalArgumentException("invalid cost value");
+                            throw new Exception("invalid cost value");
                         }
                     }
                 }
@@ -213,7 +213,7 @@ public class JavaSchoolStarter
                 {
                     if (!cellValue.split("(?i)'active'")[1].trim().startsWith("="))
                     {
-                        throw new IllegalArgumentException("invalid characters after column name");
+                        throw new Exception("invalid characters after column name");
                     }
 
                     String activeValue = cellValue.split("=")[1].replaceAll("\\s", "");
@@ -229,26 +229,26 @@ public class JavaSchoolStarter
                     }
                     else
                     {
-                        throw new IllegalArgumentException("invalid active value");
+                        throw new Exception("invalid active value");
                     }
                 }
-                default -> throw new IllegalArgumentException("invalid column name");
+                default -> throw new Exception("invalid column name");
             }
         }
     }
 
-    private List<Map<String, Object>> selectRowsWhere(String request) throws ArrayIndexOutOfBoundsException
+    private List<Map<String, Object>> selectRowsWhere(String request) throws Exception
     {
         String whereSection = request.split("(?i)WHERE")[1];
 
         if (!whereSection.trim().startsWith("'"))
         {
-            throw new IllegalArgumentException("invalid characters after WHERE");
+            throw new Exception("invalid characters after WHERE");
         }
 
         if (whereSection.contains("null"))
         {
-            throw new IllegalArgumentException("null values cannot be passed for comparison");
+            throw new Exception("null values cannot be passed for comparison");
         }
 
         String[] orSections = whereSection.split("(?i)OR");
@@ -258,7 +258,7 @@ public class JavaSchoolStarter
         {
             if (!orSection.trim().startsWith("'"))
             {
-                throw new IllegalArgumentException("invalid characters after OR");
+                throw new Exception("invalid characters after OR");
             }
 
             String[] andSections = orSection.split("(?i)AND");
@@ -268,7 +268,7 @@ public class JavaSchoolStarter
             {
                 if (!andSection.trim().startsWith("'"))
                 {
-                    throw new IllegalArgumentException("invalid characters after AND");
+                    throw new Exception("invalid characters after AND");
                 }
 
                 switch (andSection.split("'")[1].toLowerCase())
@@ -276,12 +276,13 @@ public class JavaSchoolStarter
                     case "id" ->
                     {
                         String operatorOfCondition = parseOperatorOfCondition(andSection);
-                        long id;
 
                         if (!andSection.split("(?i)'id'")[1].trim().startsWith(operatorOfCondition))
                         {
-                            throw new IllegalArgumentException("invalid characters after column name");
+                            throw new Exception("invalid characters after column name");
                         }
+
+                        long id;
 
                         try
                         {
@@ -289,7 +290,19 @@ public class JavaSchoolStarter
                         }
                         catch (Exception e)
                         {
-                            throw new IllegalArgumentException("invalid id value");
+                            if (operatorOfCondition.equals("!="))
+                            {
+                                break;
+                            }
+                            else if (operatorOfCondition.equals("="))
+                            {
+                                rowsWhereForAnd.clear();
+                                break;
+                            }
+                            else
+                            {
+                                throw new Exception("invalid id value");
+                            }
                         }
 
                         Iterator<Map<String, Object>> rowIterator = rowsWhereForAnd.iterator();
@@ -326,10 +339,11 @@ public class JavaSchoolStarter
 
                         if (!andSection.split("(?i)'lastName'")[1].trim().startsWith(operatorOfCondition))
                         {
-                            throw new IllegalArgumentException("invalid characters after column name");
+                            throw new Exception("invalid characters after column name");
                         }
 
-                        if (andSection.replaceAll("\\s", "").endsWith("'"))
+                        if (andSection.split(operatorOfCondition)[1].trim().startsWith("'") &&
+                                andSection.trim().endsWith("'"))
                         {
                             String lastName = andSection.split(operatorOfCondition)[1].split("'")[1];
 
@@ -364,7 +378,14 @@ public class JavaSchoolStarter
                         }
                         else
                         {
-                            throw new IllegalArgumentException("invalid lastName value");
+                            if (operatorOfCondition.equals("="))
+                            {
+                                rowsWhereForAnd.clear();
+                            }
+                            else
+                            {
+                                throw new Exception("invalid lastName value");
+                            }
                         }
                     }
                     case "age" ->
@@ -374,7 +395,7 @@ public class JavaSchoolStarter
 
                         if (!andSection.split("(?i)'age'")[1].trim().startsWith(operatorOfCondition))
                         {
-                            throw new IllegalArgumentException("invalid characters after column name");
+                            throw new Exception("invalid characters after column name");
                         }
 
                         try
@@ -383,7 +404,19 @@ public class JavaSchoolStarter
                         }
                         catch (Exception e)
                         {
-                            throw new IllegalArgumentException("invalid age value");
+                            if (operatorOfCondition.equals("!="))
+                            {
+                                break;
+                            }
+                            else if (operatorOfCondition.equals("="))
+                            {
+                                rowsWhereForAnd.clear();
+                                break;
+                            }
+                            else
+                            {
+                                throw new Exception("invalid age value");
+                            }
                         }
 
                         Iterator<Map<String, Object>> rowIterator = rowsWhereForAnd.iterator();
@@ -422,7 +455,7 @@ public class JavaSchoolStarter
 
                         if (!andSection.split("(?i)'cost'")[1].trim().startsWith(operatorOfCondition))
                         {
-                            throw new IllegalArgumentException("invalid characters after column name");
+                            throw new Exception("invalid characters after column name");
                         }
 
                         try
@@ -431,7 +464,19 @@ public class JavaSchoolStarter
                         }
                         catch (Exception e)
                         {
-                            throw new IllegalArgumentException("invalid cost value");
+                            if (operatorOfCondition.equals("!="))
+                            {
+                                break;
+                            }
+                            else if (operatorOfCondition.equals("="))
+                            {
+                                rowsWhereForAnd.clear();
+                                break;
+                            }
+                            else
+                            {
+                                throw new Exception("invalid cost value");
+                            }
                         }
 
                         Iterator<Map<String, Object>> rowIterator = rowsWhereForAnd.iterator();
@@ -469,7 +514,7 @@ public class JavaSchoolStarter
 
                         if (!andSection.split("(?i)'active'")[1].trim().startsWith(operatorOfCondition))
                         {
-                            throw new IllegalArgumentException("invalid characters after column name");
+                            throw new Exception("invalid characters after column name");
                         }
 
                         if (activeValue.equals("true") || activeValue.equals("false"))
@@ -506,10 +551,17 @@ public class JavaSchoolStarter
                         }
                         else
                         {
-                            throw new IllegalArgumentException("invalid active value");
+                            if (operatorOfCondition.equals("="))
+                            {
+                                rowsWhereForAnd.clear();
+                            }
+                            else
+                            {
+                                throw new Exception("invalid active value");
+                            }
                         }
                     }
-                    default -> throw new IllegalArgumentException("there is no such column");
+                    default -> throw new Exception("there is no such column");
                 }
             }
 
@@ -543,7 +595,7 @@ public class JavaSchoolStarter
         return rowsWhereForOr;
     }
 
-    private <T extends Number & Comparable<T>> boolean checkConditionForNumbers(T obj1, String condition, T obj2)
+    private <T extends Number & Comparable<T>> boolean checkConditionForNumbers(T obj1, String condition, T obj2) throws Exception
     {
         switch (condition)
         {
@@ -553,21 +605,21 @@ public class JavaSchoolStarter
             case "=" -> { return obj1.compareTo(obj2) == 0; }
             case ">" -> { return obj1.compareTo(obj2) > 0; }
             case "<" -> { return obj1.compareTo(obj2) < 0; }
-            default -> throw new IllegalArgumentException("no such condition");
+            default -> throw new Exception("no such condition");
         }
     }
 
-    private boolean checkConditionForBoolean(boolean obj1, String condition, boolean obj2)
+    private boolean checkConditionForBoolean(boolean obj1, String condition, boolean obj2) throws Exception
     {
         switch (condition)
         {
             case "=" -> { return obj1 == obj2; }
             case "!=" -> { return obj1 != obj2; }
-            default -> throw new IllegalArgumentException("no such condition");
+            default -> throw new Exception("no such condition");
         }
     }
 
-    private boolean checkConditionForString(String obj1, String condition, String obj2)
+    private boolean checkConditionForString(String obj1, String condition, String obj2) throws Exception
     {
         switch(condition)
         {
@@ -617,11 +669,11 @@ public class JavaSchoolStarter
                     return obj1.equalsIgnoreCase(obj2);
                 }
             }
-            default -> throw new IllegalArgumentException("no such condition");
+            default -> throw new Exception("no such condition");
         }
     }
 
-    private String parseOperatorOfCondition(String condition)
+    private String parseOperatorOfCondition(String condition) throws Exception
     {
         if (condition.contains(">="))
         {
@@ -657,7 +709,7 @@ public class JavaSchoolStarter
         }
         else
         {
-            throw new IllegalArgumentException("no such operator of condition");
+            throw new Exception("no such operator of condition");
         }
     }
 
@@ -674,7 +726,7 @@ public class JavaSchoolStarter
         return cloneTable;
     }
 
-    private List<Map<String, Object>> delete(String request)
+    private List<Map<String, Object>> delete(String request) throws Exception
     {
         if (request.trim().equalsIgnoreCase("DELETE"))
         {
@@ -685,7 +737,7 @@ public class JavaSchoolStarter
 
         if (!request.split("\\s+")[1].equalsIgnoreCase("WHERE"))
         {
-            throw new IllegalArgumentException("invalid characters after DELETE");
+            throw new Exception("invalid characters after DELETE");
         }
 
         List<Map<String, Object>> rowsWhere = selectRowsWhere(request);
@@ -698,7 +750,7 @@ public class JavaSchoolStarter
         return rowsWhere;
     }
 
-    private List<Map<String, Object>> select(String request)
+    private List<Map<String, Object>> select(String request) throws Exception
     {
         if (request.trim().equalsIgnoreCase("SELECT"))
         {
@@ -707,7 +759,7 @@ public class JavaSchoolStarter
 
         if (!request.split("\\s+")[1].equalsIgnoreCase("WHERE"))
         {
-            throw new IllegalArgumentException("invalid characters after SELECT");
+            throw new Exception("invalid characters after SELECT");
         }
 
         return selectRowsWhere(request);
